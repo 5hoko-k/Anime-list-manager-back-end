@@ -6,7 +6,7 @@ from model import Id
 app = FastAPI()
 
 origins = [
-    "https://anime-manager.vercel.app/",
+    "https://anime-manager.vercel.app",
     "http://localhost:5173",
     "localhost:5173"
 ]
