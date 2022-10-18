@@ -23,8 +23,7 @@ app.add_middleware(
 async def home():
     print('yoooooooooooooooooooooo')
 
-    # return get_library(get_id())
-    return {'kakashi': 'hatake'}
+    return get_library(get_id())
 
     
 
