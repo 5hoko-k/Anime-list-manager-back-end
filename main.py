@@ -21,7 +21,7 @@ app.add_middleware(
 
 @app.get('/')
 async def home():
-    print('yoooooooooooooooooooooo')
+    print('The home function triggered')
 
     return get_library(get_id())
 
@@ -29,16 +29,18 @@ async def home():
 
 @app.get("/library-data", response_model=Id)
 async def get_library(id: Id):
+    print("get_library function triggered")
     print(id)
 
 
 def get_id():
     response = requests.get('https://kitsu.io/api/edge/users?filter[name]=kimeko2')
     res = response.json()
-    print(res)
+    if res:
+        print("res (from id fetch) recieved and parsed as json")
 
     for user in res['data']:
-        print(user['id'])
+        print("here's the user id recieved" + user['id'])
 
     return user['id']
 
@@ -46,9 +48,8 @@ def get_library(id):
     url = 'https://kitsu.io/api/edge/users/{}/library-entries'
     response = requests.get(url.format(id))
     res = response.json()
-
-    print(res)
-    more = res['data']
+    if res:
+        print("res (from library fetch) recieved and parsed as json")
 
     return get_animes(res['data'])
 
