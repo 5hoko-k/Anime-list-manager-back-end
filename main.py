@@ -11,6 +11,8 @@ origins = [
     "localhost:5173"
 ]
 
+headers = {"Accept": "application/vnd.api+json", "Context-Type": "application/vnd.api+json"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -23,8 +25,6 @@ app.add_middleware(
 async def home():
     return get_library(get_id())
 
-    
-
 @app.get("/library-data", response_model=Id)
 async def get_library(id: Id):
     print("get_library function triggered")
@@ -32,7 +32,8 @@ async def get_library(id: Id):
 
 
 def get_id():
-    response = requests.get('https://kitsu.io/api/edge/users?filter[name]=kimeko2')
+    response = requests.get('https://kitsu.io/api/edge/users?filter[name]=kimeko2', headers=headers)
+    print("json at get_id")
     res = response.json()
     if res:
         print("res (from id fetch) recieved and parsed as json")
@@ -44,7 +45,7 @@ def get_id():
 
 def get_library(id):
     url = 'https://kitsu.io/api/edge/users/{}/library-entries'
-    response = requests.get(url.format(id))
+    response = requests.get(url.format(id), headers=headers)
     res = response.json()
     if res:
         print("res (from library fetch) recieved and parsed as json")
@@ -53,8 +54,10 @@ def get_library(id):
 
 def get_animes(data):
     arr = []
+    animeURL = (((anime['relationships'])['anime'])['links'])['related']
+
     for anime in data:
-        res = requests.get((((anime['relationships'])['anime'])['links'])['related'])
+        res = requests.get(animeURL, headers=headers)
         arr.append(res.json())
     return arr
 
