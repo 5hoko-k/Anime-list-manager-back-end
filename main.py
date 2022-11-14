@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+import sys
 from model import Id
 
 app = FastAPI()
@@ -32,11 +33,18 @@ async def get_library(id: Id):
 
 
 def get_id():
-    response = requests.get('https://kitsu.io/api/edge/users?filter[name]=kimeko2', headers=headers)
-    print("json at get_id")
-    res = response.json()
-    if res:
-        print("res (from id fetch) recieved and parsed as json")
+    try:
+        response = requests.get('https://kitsu.io/api/edge/users?filter[name]=kimeko2', headers=headers)
+    except:
+        print(sys.exc_info()[0])
+        print("res (from id fetch) NOT recieved")
+    else:
+        print("json at get_id")
+        try:
+            res = response.json()
+        except:
+            print(sys.exc_info()[0])
+            print("res (from id fetch) NOT parsed as json")
 
     for user in res['data']:
         print("here's the user id recieved" + user['id'])
@@ -45,10 +53,18 @@ def get_id():
 
 def get_library(id):
     url = 'https://kitsu.io/api/edge/users/{}/library-entries'
-    response = requests.get(url.format(id), headers=headers)
-    res = response.json()
-    if res:
-        print("res (from library fetch) recieved and parsed as json")
+
+    try:
+        response = requests.get(url.format(id), headers=headers)
+    except:
+        print(sys.exc_info()[0])
+        print("res (from library fetch) NOT recieved")
+    else:
+        try:
+            res = response.json()
+        except:
+            print(sys.exc_info()[0])
+            print("res (from library fetch) NOT parsed as json")
 
     return get_animes(res['data'])
 
@@ -57,8 +73,18 @@ def get_animes(data):
     animeURL = (((anime['relationships'])['anime'])['links'])['related']
 
     for anime in data:
-        res = requests.get(animeURL, headers=headers)
-        arr.append(res.json())
+        try:
+            res = requests.get(animeURL, headers=headers)
+        except:
+            print(sys.exc_info()[0])
+            print("failed to get anime in get_anime")
+        else:
+            try:
+                arr.append(res.json())
+            except:
+                print(sys.exc_info()[0])
+                print("failed parse anime as json in get_anime")
+                
     return arr
 
 
