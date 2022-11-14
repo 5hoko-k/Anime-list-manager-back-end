@@ -21,8 +21,6 @@ app.add_middleware(
 
 @app.get('/')
 async def home():
-    print('The home function triggered')
-
     return get_library(get_id())
 
     
@@ -54,16 +52,10 @@ def get_library(id):
     return get_animes(res['data'])
 
 def get_animes(data):
-
     arr = []
-
     for anime in data:
         res = requests.get((((anime['relationships'])['anime'])['links'])['related'])
-
-        print('yeyaaaaaaaaaaaaaaaaaaaa')
-        print(res)
         arr.append(res.json())
-
     return arr
 
 
