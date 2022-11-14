@@ -45,9 +45,9 @@ def get_id():
         except:
             print(sys.exc_info()[0])
             print("res (from id fetch) NOT parsed as json")
-
-    for user in res['data']:
-        print("here's the user id recieved" + user['id'])
+        else:
+            for user in res['data']:
+                print("here's the user id recieved" + user['id'])
 
     return user['id']
 
@@ -70,11 +70,10 @@ def get_library(id):
 
 def get_animes(data):
     arr = []
-    animeURL = (((anime['relationships'])['anime'])['links'])['related']
 
     for anime in data:
         try:
-            res = requests.get(animeURL, headers=headers)
+            res = requests.get((((anime['relationships'])['anime'])['links'])['related'], headers=headers)
         except:
             print(sys.exc_info()[0])
             print("failed to get anime in get_anime")
@@ -84,7 +83,7 @@ def get_animes(data):
             except:
                 print(sys.exc_info()[0])
                 print("failed parse anime as json in get_anime")
-                
+
     return arr
 
 
