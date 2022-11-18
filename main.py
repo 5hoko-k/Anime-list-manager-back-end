@@ -23,29 +23,10 @@ app.add_middleware(
 
 @app.get('/')
 async def home():
-    return get_library(get_id())
+    return get_library()
 
-def get_id():
-    try:
-        response = requests.get('https://kitsu.io/api/edge/users?filter[name]=kimeko2', headers=headers)
-    except:
-        print(sys.exc_info()[0])
-        print("res (from id fetch) NOT recieved")
-    else:
-        print("json at get_id")
-        try:
-            res = response.json()
-        except:
-            print(sys.exc_info()[0])
-            print("res (from id fetch) NOT parsed as json")
-        else:
-            for user in res['data']:
-                print("here's the user id recieved" + user['id'])
-
-    return user['id']
-
-def get_library(id):
-    url = 'https://kitsu.io/api/edge/users/{}/library-entries'
+def get_library():
+    url = 'https://kitsu.io/api/edge/users/1342153/library-entries'
 
     try:
         response = requests.get(url.format(id), headers=headers)
