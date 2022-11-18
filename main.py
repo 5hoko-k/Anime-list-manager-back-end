@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import sys
-from model import Id
 
 app = FastAPI()
 
@@ -25,12 +24,6 @@ app.add_middleware(
 @app.get('/')
 async def home():
     return get_library(get_id())
-
-@app.get("/library-data", response_model=Id)
-async def get_library(id: Id):
-    print("get_library function triggered")
-    print(id)
-
 
 def get_id():
     try:
