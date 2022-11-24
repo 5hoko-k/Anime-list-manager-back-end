@@ -25,11 +25,15 @@ app.add_middleware(
 async def home():
     return get_library()
 
+@app.get('/search/{anime}')
+async def search(anime: str):
+    return get_searched_anime(anime)
+
 def get_library():
     url = 'https://kitsu.io/api/edge/users/1342153/library-entries'
 
     try:
-        response = requests.get(url.format(id), headers=headers)
+        response = requests.get(url, headers=headers)
     except:
         print(sys.exc_info()[0])
         print("res (from library fetch) NOT recieved")
@@ -60,4 +64,21 @@ def get_animes(data):
 
     return arr
 
+def get_searched_anime(anime):
+    url = 'https://kitsu.io/api/edge/anime?filter[text]='+ anime
+
+    try:
+        response = requests.get(url, headers=headers)
+    except:
+        print(sys.exc_info()[0])
+        print("res (from searched anime fetch) NOT recieved")
+    else:
+        try:
+            res = response.json()
+        except:
+            print(sys.exc_info()[0])
+            print("res (from library fetch) NOT parsed as json")
+
+    print(res['data'])
+    return res['data']
 
