@@ -30,7 +30,7 @@ async def search(anime: str):
     return get_searched_anime(anime)
 
 def get_library():
-    url = 'https://kitsu.io/api/edge/users/1342153/library-entries'
+    url = 'https://kitsu.io/api/edge/users/1342153/library-entries?page[limit]=20&page[offset]=0'
 
     try:
         response = requests.get(url, headers=headers)
@@ -42,16 +42,17 @@ def get_library():
             res = response.json()
         except:
             print(sys.exc_info()[0])
-            print("res (from library fetch) NOT parsed as json")
-
+            print("res (from library fetch) NOT parsed as json")  
     return get_animes(res['data'])
 
 def get_animes(data):
     arr = []
 
     for anime in data:
+        url = (((anime['relationships'])['anime'])['links'])['related']
+
         try:
-            res = requests.get((((anime['relationships'])['anime'])['links'])['related'], headers=headers)
+            res = requests.get(url, headers=headers)
         except:
             print(sys.exc_info()[0])
             print("failed to get anime in get_anime")
