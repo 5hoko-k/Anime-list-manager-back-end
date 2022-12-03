@@ -47,7 +47,7 @@ def get_library(url):
         except:
             print(sys.exc_info()[0])
             print("res (from library fetch) NOT parsed as json")  
-    return get_animes(res['data'])
+    return { 'animes': get_animes(res['data']), 'pageLinks': res['links'] }
 
 def get_animes(data):
     arr = []
