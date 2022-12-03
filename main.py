@@ -23,14 +23,18 @@ app.add_middleware(
 
 @app.get('/')
 async def home():
-    return get_library()
+    url = 'https://kitsu.io/api/edge/users/1342153/library-entries?page[limit]=20&page[offset]=0'
+    return get_library(url)
 
 @app.get('/search/{anime}')
 async def search(anime: str):
     return get_searched_anime(anime)
 
-def get_library():
-    url = 'https://kitsu.io/api/edge/users/1342153/library-entries?page[limit]=20&page[offset]=0'
+@app.get('/paging/{url}')
+async def paging(url: str):
+    return get_library(url)
+
+def get_library(url):
 
     try:
         response = requests.get(url, headers=headers)
