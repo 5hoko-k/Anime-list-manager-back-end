@@ -66,7 +66,7 @@ def get_animes(data):
     return arr
 
 def get_searched_anime(anime):
-    url = 'https://kitsu.io/api/edge/anime?filter[text]='+ anime
+    url = 'https://kitsu.io/api/edge/anime?filter[text]='+ anime + '&page[limit]=20&pge[offset]=0'
 
     try:
         response = requests.get(url, headers=headers)
