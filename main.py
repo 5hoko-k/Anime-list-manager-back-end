@@ -62,7 +62,8 @@ def get_animes(data):
             print("failed to get anime in get_anime")
         else:
             try:
-                arr.append(res.json())
+                data = res.json()
+                arr.append(data['data'])
             except:
                 print(sys.exc_info()[0])
                 print("failed parse anime as json in get_anime")
