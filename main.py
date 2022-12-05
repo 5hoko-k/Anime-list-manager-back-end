@@ -86,5 +86,6 @@ def get_searched_anime(anime):
             print("res (from library fetch) NOT parsed as json")
 
     print(res['data'])
-    return res['data']
+
+    return { 'animes': res['data'], 'pageLinks': res['links'] }
 
