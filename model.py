@@ -1,4 +1,4 @@
 from pydantic import BaseModel
 
-class Id(BaseModel):
-    id: int
+class Fetch_url(BaseModel):
+    url: str
