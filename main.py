@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from model import Fetch_url
 import requests
 import sys
 
@@ -30,9 +31,11 @@ async def home():
 async def search(anime: str):
     return get_searched_anime(anime)
 
-@app.get('/paging/{url}')
-async def paging(url: str):
-    return get_library(url)
+@app.post('/paging')
+async def paging(text: Fetch_url):
+    data = dict(text)
+    print(data)
+    return get_library(text)
 
 def get_library(url):
 
