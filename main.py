@@ -33,9 +33,9 @@ async def search(anime: str):
 
 @app.post('/paging')
 async def paging(text: Fetch_url):
-    data = dict(text)
+    data = text.dict()
     print(data)
-    return get_library(text)
+    return get_library(data['url'])
 
 def get_library(url):
 
@@ -89,6 +89,7 @@ def get_searched_anime(anime):
             print("res (from library fetch) NOT parsed as json")
 
     print(res['data'])
+    print(res['links'])
 
     return { 'animes': res['data'], 'pageLinks': res['links'] }
 
