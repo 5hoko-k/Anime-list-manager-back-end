@@ -38,6 +38,12 @@ async def paging(text: Fetch_url):
     print(data)
     return get_library(data['url'])
 
+@app.post('/searchPaging')
+async def paging(text: Fetch_url):
+    data = text.dict()
+    print(data)
+    return get_searched_anime(data['url'])
+
 def get_library(url):
 
     try:
