@@ -29,7 +29,8 @@ async def home():
 
 @app.get('/search/{anime}')
 async def search(anime: str):
-    return get_searched_anime(anime)
+    url = 'https://kitsu.io/api/edge/anime?filter[text]='+ anime + '&page[limit]=20&pge[offset]=0'
+    return get_searched_anime(url)
 
 @app.post('/paging')
 async def paging(text: Fetch_url):
@@ -73,8 +74,7 @@ def get_animes(data):
 
     return arr
 
-def get_searched_anime(anime):
-    url = 'https://kitsu.io/api/edge/anime?filter[text]='+ anime + '&page[limit]=20&pge[offset]=0'
+def get_searched_anime(url):
 
     try:
         response = requests.get(url, headers=headers)
